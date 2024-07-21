@@ -47,7 +47,7 @@ def handler(session, PREFIX: str, DROP_OBJECTS_WITH_PREFIX: bool = False, CREATE
         select $1 as ddl_statements_string
         from table(result_scan(last_query_id()))
       ) statements_from_get_ddl,
-    lateral split_to_Table(statements_from_get_ddl.ddl_statements_string, '';'')
+    lateral split_to_table(statements_from_get_ddl.ddl_statements_string, '';'')
     where 1=1
       --exclude not needed schemas
       and value not ilike ''%.PUBLIC.%''
@@ -59,7 +59,7 @@ def handler(session, PREFIX: str, DROP_OBJECTS_WITH_PREFIX: bool = False, CREATE
     """).collect()
   
   for ddl in parsed_ddls_rows:
-    extracted_ddls += ddl.parsed_ddls + "; \\nn"
+    extracted_ddls += ddl.parsed_ddls + "; \\n"
   
   if CREATE_OR_REPLACE_TABLES:
     for ddl in parsed_ddls_rows:
