@@ -24,7 +24,7 @@ def handler(session, PREFIX: str, DROP_OBJECTS_WITH_PREFIX: bool = False, CREATE
       and name ilike ''(PREFIX}%''
       """).collect()
     
-    statements_executed: str = ""
+    drop_statements_executed: str = ""
     
     for row in ddls_to_delete_rows:
       session.sql(f" drop table {row.DATABASE_NAME}.{row.SCHEMA_NAME}. {row.NAME}").collect()
